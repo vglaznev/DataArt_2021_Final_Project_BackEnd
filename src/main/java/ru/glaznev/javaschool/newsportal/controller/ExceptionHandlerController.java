@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.glaznev.javaschool.newsportal.controller.dto.ErrorDTO;
 import ru.glaznev.javaschool.newsportal.exception.ArticleNotFoundException;
+import ru.glaznev.javaschool.newsportal.exception.InputFileException;
 
 @ControllerAdvice
 public class ExceptionHandlerController {
@@ -16,4 +17,12 @@ public class ExceptionHandlerController {
     public ErrorDTO handleArticleNotFoundException(ArticleNotFoundException exception) {
         return new ErrorDTO(exception.getMessage());
     }
+
+    @ExceptionHandler(InputFileException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ErrorDTO handleInputFileException(InputFileException exception) {
+        return new ErrorDTO(exception.getMessage());
+    }
+
 }

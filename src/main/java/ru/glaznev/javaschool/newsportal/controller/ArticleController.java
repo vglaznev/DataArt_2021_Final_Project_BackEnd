@@ -1,6 +1,7 @@
 package ru.glaznev.javaschool.newsportal.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +23,10 @@ public class ArticleController {
     }
 
     @PostMapping("/upload/")
-    public ResponseEntity<?> uploadArticle(@RequestParam("file") MultipartFile file){
-        return ResponseEntity.ok(/*articleService.uploadArticle(file)*/null);
+    public ResponseEntity<?> uploadArticle(@RequestPart("file") MultipartFile article){
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(articleService.uploadArticle(article));
     }
+
 }
