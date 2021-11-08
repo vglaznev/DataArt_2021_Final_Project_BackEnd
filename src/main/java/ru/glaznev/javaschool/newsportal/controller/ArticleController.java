@@ -23,7 +23,7 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.getArticleById(id));
     }
 
-    @GetMapping("/articles/{topic}")
+    @GetMapping("/article/{topic}")
     public ResponseEntity<?> getArticlesByTopic(@PathVariable Topic topic){
         return ResponseEntity.ok(articleService.getArticlesByTopic(topic));
     }
