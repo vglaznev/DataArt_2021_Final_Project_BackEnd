@@ -12,14 +12,19 @@ import ru.glaznev.javaschool.newsportal.service.ArticleService;
 public class ArticleController {
     private final ArticleService articleService;
 
-    @GetMapping( "/articles")
+    @GetMapping( "/articles/")
     public ResponseEntity<?> getArticles(){
         return ResponseEntity.ok(articleService.getArticles());
     }
 
-    @GetMapping("/article/{id}")
+    @GetMapping("/articles/{id}")
     public ResponseEntity<?> getArticleById(@PathVariable Long id){
         return ResponseEntity.ok(articleService.getArticleById(id));
+    }
+
+    @GetMapping("/articles/{topic}")
+    public ResponseEntity<?> getArticlesByTopic(@PathVariable String topic){
+        return ResponseEntity.ok(articleService.getArticlesByTopic(topic));
     }
 
     @PostMapping("/upload/")

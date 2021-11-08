@@ -3,11 +3,13 @@ package ru.glaznev.javaschool.newsportal.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.glaznev.javaschool.newsportal.controller.dto.ArticleDTO;
 import ru.glaznev.javaschool.newsportal.entity.ArticleEntity;
 import ru.glaznev.javaschool.newsportal.exception.ArticleNotFoundException;
 import ru.glaznev.javaschool.newsportal.exception.InputFileException;
 import ru.glaznev.javaschool.newsportal.repository.ArticleRepository;
 
+import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,21 +22,72 @@ import java.util.zip.ZipInputStream;
 public class ArticleService {
     private final ArticleRepository articleRepository;
 
-    public List<ArticleEntity> getArticles() {
-        return articleRepository.getArticles();
+    /*@PostConstruct
+    public void addSomeData(){
+        articleRepository.save(
+                ArticleEntity.builder()
+                        .title("Title_1")
+                        .topic("Topic_1")
+                        .body("Some body_1")
+                        .build());
+        articleRepository.save(
+                ArticleEntity.builder()
+                        .title("Title_2")
+                        .topic("Topic_1")
+                        .body("Some body")
+                        .build());
+        articleRepository.save(
+                ArticleEntity.builder()
+                        .title("Title_3")
+                        .topic("Topic_2")
+                        .body("Some body")
+                        .build());
+        articleRepository.save(
+                ArticleEntity.builder()
+                        .title("Title_4")
+                        .topic("Topic_2")
+                        .body("Some body")
+                        .build());
+        articleRepository.save(
+                ArticleEntity.builder()
+                        .title("Title_5")
+                        .topic("Topic_2")
+                        .body("Some body")
+                        .build());
+        articleRepository.save(
+                ArticleEntity.builder()
+                        .title("Title_6")
+                        .topic("Topic_2")
+                        .body("Some body")
+                        .build());
+    }*/
+
+    public List<ArticleDTO> getArticles() {
+        return articleRepository.findAllByOrderByTimeDesc()
+                .stream()
+                .map(ArticleDTO::convertToDTO)
+                .collect(Collectors.toList());
     }
 
-    public ArticleEntity getArticleById(Long id) {
-        return articleRepository.getArticleById(id)
-                .orElseThrow(() -> new ArticleNotFoundException("Article with id=" + id + " doesn't exist"));
+    public List<ArticleDTO> getArticlesByTopic(String topic){
+        return articleRepository.findByTopicOrderByTimeDesc(topic)
+                .stream()
+                .map(ArticleDTO::convertToDTO)
+                .collect(Collectors.toList());
     }
 
-    public ArticleEntity uploadArticle(MultipartFile inputFile) {
-        return articleRepository.createArticle(validateInputFile(inputFile));
+    public ArticleDTO getArticleById(Long id) {
+        return ArticleDTO.convertToDTO(articleRepository.findById(id)
+                .orElseThrow(() -> new ArticleNotFoundException("Article with id=" + id + " doesn't exist")));
     }
 
-    private ArticleEntity validateInputFile(MultipartFile inputFile) {
-        if (!inputFile.getContentType().equals("application/x-zip-compressed")) {
+    public ArticleDTO uploadArticle(MultipartFile inputFile) {
+
+        return null;
+    }
+
+    private ArticleDTO validateInputFile(MultipartFile inputFile) {
+        /*if (!inputFile.getContentType().equals("application/x-zip-compressed")) {
             throw new InputFileException("Incorrect format");
         }
         try (ZipInputStream zipInputStream = new ZipInputStream(inputFile.getInputStream())) {
@@ -53,7 +106,10 @@ public class ArticleService {
             throw new InputFileException("Empty Zip");
         } catch (IOException exception) {
             throw new InputFileException("Cannot open zip");
-        }
+        }*/
+        //переделать под byte[], чтобы не использовать stream
+        //задать значение размера byte[] под body
+        return null;
     }
 
 }

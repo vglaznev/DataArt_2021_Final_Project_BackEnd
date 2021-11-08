@@ -1,27 +1,16 @@
 package ru.glaznev.javaschool.newsportal.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
 import ru.glaznev.javaschool.newsportal.entity.ArticleEntity;
 
-import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.List;
 
 @Repository
-public class ArticleRepository {
-    private Map<Long, ArticleEntity> database = new HashMap<>();
-    @PostConstruct
-    public void initRepository(){
-    }
+public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
 
-    public List<ArticleEntity> getArticles(){
-        return new ArrayList<>(database.values());
-    }
-
-    public Optional<ArticleEntity> getArticleById(Long id){
-        return Optional.ofNullable(database.get(id));
-    }
-    public ArticleEntity createArticle(ArticleEntity input){
-        database.put((long)database.size(), input);
-        return input;
-    }
+    List<ArticleEntity> findAllByOrderByTimeDesc();
+    List<ArticleEntity> findByTopicOrderByTimeDesc(String topic);
 }
+
