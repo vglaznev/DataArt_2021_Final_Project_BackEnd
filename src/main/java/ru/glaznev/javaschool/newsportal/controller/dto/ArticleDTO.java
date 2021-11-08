@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.glaznev.javaschool.newsportal.entity.ArticleEntity;
+import ru.glaznev.javaschool.newsportal.enumeration.Topic;
 
 import java.sql.Timestamp;
 
@@ -15,7 +16,8 @@ import java.sql.Timestamp;
 public class ArticleDTO {
     Long id;
     String title;
-    String topic;
+    /*String topic;*/
+    Topic topic;
     String body;
     Timestamp uploadTime;
 

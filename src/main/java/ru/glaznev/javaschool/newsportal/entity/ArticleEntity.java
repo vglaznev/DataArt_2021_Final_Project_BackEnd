@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import ru.glaznev.javaschool.newsportal.enumeration.Topic;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -24,8 +25,11 @@ public class ArticleEntity {
     @Column(name = "title")
     private String title;
 
+    /*@Column(name = "topic")
+    private String topic;*/
     @Column(name = "topic")
-    private String topic;
+    @Enumerated(EnumType.STRING)
+    private Topic topic;
 
     @Column(name = "body")
     private String body;
@@ -33,4 +37,6 @@ public class ArticleEntity {
     @CreationTimestamp
     @Column(name = "time")
     private Timestamp time;
+
+
 }

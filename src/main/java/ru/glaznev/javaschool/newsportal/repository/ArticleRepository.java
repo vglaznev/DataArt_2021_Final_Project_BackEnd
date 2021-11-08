@@ -1,9 +1,9 @@
 package ru.glaznev.javaschool.newsportal.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
 import ru.glaznev.javaschool.newsportal.entity.ArticleEntity;
+import ru.glaznev.javaschool.newsportal.enumeration.Topic;
 
 import java.util.List;
 
@@ -11,6 +11,6 @@ import java.util.List;
 public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
 
     List<ArticleEntity> findAllByOrderByTimeDesc();
-    List<ArticleEntity> findByTopicOrderByTimeDesc(String topic);
+    List<ArticleEntity> findByTopicOrderByTimeDesc(Topic topic);
 }
 

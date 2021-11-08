@@ -5,16 +5,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.glaznev.javaschool.newsportal.controller.dto.ArticleDTO;
 import ru.glaznev.javaschool.newsportal.entity.ArticleEntity;
+import ru.glaznev.javaschool.newsportal.enumeration.Topic;
 import ru.glaznev.javaschool.newsportal.exception.ArticleNotFoundException;
 import ru.glaznev.javaschool.newsportal.exception.InputFileException;
 import ru.glaznev.javaschool.newsportal.repository.ArticleRepository;
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 @Service
@@ -22,45 +25,45 @@ import java.util.zip.ZipInputStream;
 public class ArticleService {
     private final ArticleRepository articleRepository;
 
-    /*@PostConstruct
+    @PostConstruct
     public void addSomeData(){
         articleRepository.save(
                 ArticleEntity.builder()
                         .title("Title_1")
-                        .topic("Topic_1")
+                        .topic(Topic.POLITICS)
                         .body("Some body_1")
                         .build());
         articleRepository.save(
                 ArticleEntity.builder()
                         .title("Title_2")
-                        .topic("Topic_1")
+                        .topic(Topic.POLITICS)
                         .body("Some body")
                         .build());
         articleRepository.save(
                 ArticleEntity.builder()
                         .title("Title_3")
-                        .topic("Topic_2")
+                        .topic(Topic.POLITICS)
                         .body("Some body")
                         .build());
         articleRepository.save(
                 ArticleEntity.builder()
                         .title("Title_4")
-                        .topic("Topic_2")
+                        .topic(Topic.FINANCE)
                         .body("Some body")
                         .build());
         articleRepository.save(
                 ArticleEntity.builder()
                         .title("Title_5")
-                        .topic("Topic_2")
+                        .topic(Topic.FINANCE)
                         .body("Some body")
                         .build());
         articleRepository.save(
                 ArticleEntity.builder()
                         .title("Title_6")
-                        .topic("Topic_2")
+                        .topic(Topic.SCIENCE)
                         .body("Some body")
                         .build());
-    }*/
+    }
 
     public List<ArticleDTO> getArticles() {
         return articleRepository.findAllByOrderByTimeDesc()
@@ -69,7 +72,7 @@ public class ArticleService {
                 .collect(Collectors.toList());
     }
 
-    public List<ArticleDTO> getArticlesByTopic(String topic){
+    public List<ArticleDTO> getArticlesByTopic(Topic topic){
         return articleRepository.findByTopicOrderByTimeDesc(topic)
                 .stream()
                 .map(ArticleDTO::convertToDTO)
@@ -90,7 +93,13 @@ public class ArticleService {
         /*if (!inputFile.getContentType().equals("application/x-zip-compressed")) {
             throw new InputFileException("Incorrect format");
         }
-        try (ZipInputStream zipInputStream = new ZipInputStream(inputFile.getInputStream())) {
+        try(ZipFile inputZipFile = new ZipFile((File) inputFile)){
+
+        }catch (IOException exception) {
+
+        }*/
+
+        /*try (ZipInputStream zipInputStream = new ZipInputStream(inputFile.getInputStream())) {
             if (zipInputStream.getNextEntry() != null) {
                 BufferedReader entryBuffer = new BufferedReader(new InputStreamReader(zipInputStream));
                 String name = entryBuffer.readLine();
