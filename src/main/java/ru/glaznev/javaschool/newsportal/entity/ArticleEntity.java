@@ -27,7 +27,6 @@ public class ArticleEntity {
 
     /*@Column(name = "topic")
     private String topic;*/
-    @Column(name = "topic")
     @Enumerated(EnumType.STRING)
     private Topic topic;
 

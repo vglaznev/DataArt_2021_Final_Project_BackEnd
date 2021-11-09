@@ -13,6 +13,7 @@ CREATE TABLE ARTICLE
                 'SHOW BUSINESS',
                 'ACCIDENTS',
                 'JOURNEYS') NOT NULL,
+    /*TOPIC VARCHAR (20) NOT NULL,*/
     BODY CLOB NOT NULL ,
     TIME SMALLDATETIME NOT NULL
 );

@@ -7,6 +7,7 @@ import ru.glaznev.javaschool.newsportal.enumeration.Topic;
 
 import java.util.List;
 
+
 @Repository
 public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
 

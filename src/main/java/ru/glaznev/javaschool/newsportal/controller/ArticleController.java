@@ -8,23 +8,25 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.glaznev.javaschool.newsportal.enumeration.Topic;
 import ru.glaznev.javaschool.newsportal.service.ArticleService;
 
+import javax.websocket.server.PathParam;
+
 @RestController
 @RequiredArgsConstructor
 public class ArticleController {
     private final ArticleService articleService;
 
-    @GetMapping( "/articles/")
+    @GetMapping( "/articles")
     public ResponseEntity<?> getArticles(){
         return ResponseEntity.ok(articleService.getArticles());
     }
 
-    @GetMapping("/articles/{id}")
+    @GetMapping("/article/{id}")
     public ResponseEntity<?> getArticleById(@PathVariable Long id){
         return ResponseEntity.ok(articleService.getArticleById(id));
     }
 
-    @GetMapping("/article/{topic}")
-    public ResponseEntity<?> getArticlesByTopic(@PathVariable Topic topic){
+    @GetMapping("/articles/")
+    public ResponseEntity<?> getArticlesByTopic(@RequestParam Topic topic){
         return ResponseEntity.ok(articleService.getArticlesByTopic(topic));
     }
 
