@@ -103,10 +103,10 @@ public class ArticleService {
                 throw new InputFileException("Empty Zip");
             }
             BufferedReader entryBuffer = new BufferedReader(new InputStreamReader(zipInputStream));
+            title = entryBuffer.readLine();
             if(!articleTxtEntry.getName().equals("article.txt") || zipInputStream.getNextEntry() != null){
                 throw new InputFileException("ZIP-archive should contain only 'article.txt'");
             }
-            title = entryBuffer.readLine();
             if (!entryBuffer.ready()) {
                 throw new InputFileException("Article has no body");
             }
