@@ -14,8 +14,6 @@ public enum Topic {
     FINANCE("Finance"),
     SPORTS("Sports"),
     SCIENCE("Science"),
-    SHOW_BUSINESS("Show business"),
-    ACCIDENTS("Accidents"),
     JOURNEYS("Journeys");
 
     private String content;

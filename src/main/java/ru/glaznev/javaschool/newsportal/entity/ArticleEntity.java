@@ -11,6 +11,7 @@ import ru.glaznev.javaschool.newsportal.enumeration.Topic;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -38,6 +39,5 @@ public class ArticleEntity {
     @CreationTimestamp
     @Column(name = "time")
     private Timestamp time;
-
 
 }

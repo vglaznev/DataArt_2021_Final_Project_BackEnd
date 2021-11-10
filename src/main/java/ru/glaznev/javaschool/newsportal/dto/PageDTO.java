@@ -1,4 +1,4 @@
-package ru.glaznev.javaschool.newsportal.controller.dto;
+package ru.glaznev.javaschool.newsportal.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import ru.glaznev.javaschool.newsportal.entity.ArticleEntity;
 
-import java.awt.print.PageFormat;
 import java.util.List;
 
 @Data

@@ -1,14 +1,12 @@
 package ru.glaznev.javaschool.newsportal.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.glaznev.javaschool.newsportal.controller.dto.ArticleDTO;
-import ru.glaznev.javaschool.newsportal.controller.dto.PageDTO;
+import ru.glaznev.javaschool.newsportal.dto.ArticleDTO;
+import ru.glaznev.javaschool.newsportal.dto.PageDTO;
 import ru.glaznev.javaschool.newsportal.entity.ArticleEntity;
 import ru.glaznev.javaschool.newsportal.enumeration.Topic;
 import ru.glaznev.javaschool.newsportal.exception.ArticleNotFoundException;
@@ -16,12 +14,12 @@ import ru.glaznev.javaschool.newsportal.exception.InputFileException;
 import ru.glaznev.javaschool.newsportal.repository.ArticleRepository;
 
 import javax.annotation.PostConstruct;
-import java.io.*;
-import java.util.List;
-import java.util.Optional;
+import javax.lang.model.type.ErrorType;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 @Service
@@ -30,7 +28,7 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
 
     @PostConstruct
-    public void addSomeData(){
+    public void addSomeData() {
         articleRepository.save(
                 ArticleEntity.builder()
                         .title("Title_1")
@@ -73,7 +71,7 @@ public class ArticleService {
         return PageDTO.of(articleRepository.findAll(pageRequest));
     }
 
-    public PageDTO getArticlesByTopic(Topic topic, Pageable pageable){
+    public PageDTO getArticlesByTopic(Topic topic, Pageable pageable) {
         return PageDTO.of(articleRepository.findAllByTopic(topic, pageable));
     }
 
@@ -83,38 +81,47 @@ public class ArticleService {
     }
 
     public ArticleDTO uploadArticle(Topic topic, MultipartFile inputFile) {
+        ArticleEntity articleEntity;
+        validateInputFile(inputFile.getOriginalFilename());
+        articleEntity = articleRepository.save(createArticle(topic, inputFile));
 
-        return null;
+        return ArticleDTO.of(articleEntity);
     }
 
-    private ArticleEntity createArticle(Topic topic, MultipartFile inputFile){
+    private boolean validateInputFile(String inputFileName) {
+        if (!inputFileName.substring(inputFileName.length() - 4).equals(".zip"))
+            throw new InputFileException("Please, make sure you attach a ZIP-archive");
+        return true;
+    }
+
+    private ArticleEntity createArticle(Topic topic, MultipartFile inputFile) {
         String title;
         String body;
+        try (ZipInputStream zipInputStream = new ZipInputStream(inputFile.getInputStream())) {
+            ZipEntry articleTxtEntry = zipInputStream.getNextEntry();
+            if (articleTxtEntry == null) {
+                throw new InputFileException("Empty Zip");
+            }
+            BufferedReader entryBuffer = new BufferedReader(new InputStreamReader(zipInputStream));
+            if(!articleTxtEntry.getName().equals("article.txt") || zipInputStream.getNextEntry() != null){
+                throw new InputFileException("ZIP-archive should contain only 'article.txt'");
+            }
+            title = entryBuffer.readLine();
+            if (!entryBuffer.ready()) {
+                throw new InputFileException("Article has no body");
+            }
+            body = entryBuffer
+                    .lines()
+                    .collect(Collectors.joining(System.lineSeparator()));
+            return ArticleEntity.builder()
+                    .title(title)
+                    .topic(topic)
+                    .body(body)
+                    .build();
 
-        if (!inputFile.getContentType().equals("application/x-zip-compressed")) {
-            throw new InputFileException("Incorrect format");
+        } catch (IOException exception) {
+            throw new InputFileException("Cannot open zip");
+
         }
-
-        try(ZipInputStream zipInputStream = new ZipInputStream(inputFile.getInputStream())){
-            Optional<ZipEntry> optionalZipEntry= Optional.ofNullable(zipInputStream.getNextEntry());
-
-
-        }catch(IOException ioException){
-
-        }
-
-
-        return  ArticleEntity.builder()
-                .title(title)
-                .topic(topic)
-                .body(body)
-                .build();
     }
-
-    private boolean validateFile(MultipartFile inputFile){
-        return false;
-    }
-
-
-
 }

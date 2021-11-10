@@ -10,8 +10,6 @@ CREATE TABLE ARTICLE
                 'FINANCE',
                 'SPORTS',
                 'SCIENCE',
-                'SHOW BUSINESS',
-                'ACCIDENTS',
                 'JOURNEYS') NOT NULL,
     /*TOPIC VARCHAR (20) NOT NULL,*/
     BODY CLOB NOT NULL ,

@@ -1,4 +1,4 @@
-package ru.glaznev.javaschool.newsportal.controller.dto;
+package ru.glaznev.javaschool.newsportal.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

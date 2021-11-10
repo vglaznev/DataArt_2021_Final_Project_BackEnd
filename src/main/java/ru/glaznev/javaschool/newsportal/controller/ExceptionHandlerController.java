@@ -6,10 +6,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import ru.glaznev.javaschool.newsportal.controller.dto.ErrorDTO;
+import ru.glaznev.javaschool.newsportal.dto.ErrorDTO;
 import ru.glaznev.javaschool.newsportal.exception.ArticleNotFoundException;
 import ru.glaznev.javaschool.newsportal.exception.InputFileException;
-import ru.glaznev.javaschool.newsportal.exception.NoSuchTopicException;
 
 @ControllerAdvice
 public class ExceptionHandlerController {

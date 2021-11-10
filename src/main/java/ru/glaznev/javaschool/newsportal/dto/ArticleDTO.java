@@ -1,5 +1,8 @@
-package ru.glaznev.javaschool.newsportal.controller.dto;
+package ru.glaznev.javaschool.newsportal.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
