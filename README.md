@@ -5,12 +5,12 @@
  
 Чтобы запустить backend приложение необходимо:
 1) В корневой папке выполнить команду для сборки maven-проекта: 
-2) 
-'{mvn clean install}'
+
+'mvn clean install
 
 2) В папке target запустить java приложение командой:
 
-'{java -jar news-portal-0.0.1-SNAPSHOT.jar}'
+'java -jar news-portal-0.0.1-SNAPSHOT.jar
   
  API документация доступна по адресу:
  http://localhost:8080/swagger-ui/
