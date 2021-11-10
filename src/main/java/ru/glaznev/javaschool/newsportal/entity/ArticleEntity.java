@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 import ru.glaznev.javaschool.newsportal.enumeration.Topic;
 
 import javax.persistence.*;
@@ -27,12 +28,13 @@ public class ArticleEntity {
 
     /*@Column(name = "topic")
     private String topic;*/
+    @Column(name = "topic")
     @Enumerated(EnumType.STRING)
     private Topic topic;
 
     @Column(name = "body")
     private String body;
-
+    
     @CreationTimestamp
     @Column(name = "time")
     private Timestamp time;

@@ -21,7 +21,7 @@ public class ArticleDTO {
     String body;
     Timestamp uploadTime;
 
-    public static ArticleDTO convertToDTO(ArticleEntity articleEntity){
+    public static ArticleDTO of(ArticleEntity articleEntity){
         return new ArticleDTOBuilder()
                 .id(articleEntity.getId())
                 .title(articleEntity.getTitle())
